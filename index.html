@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script
+src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h3 style="margin-bottom: 0px;">Latest Data</h3>
+    <div id="latest-temp"></div>
+    <div id="graph">
+        <canvas id="myChart"></canvas>
+    </div>
+    <script>
+      let uri = ""
+      const latestTemp = document.getElementById("latest-temp")
+      const temp = document.createElement("p")
+      const altitude = document.createElement("p")
+      const pressure = document.createElement("p")
+      console.log(temp)
+ var t,p,a,time
+ async function logLatestTemp() {
+  const response = await fetch("https://bmp-api-8jll.onrender.com/one")
+  const body = await response.json()
+  temp.innerHTML = "<strong>Temprature - </strong>"+ body['temp'] + "C"
+  altitude.innerHTML = "<strong>Altitude - </strong>" + body["altitude"] + "Pa"
+  pressure.innerHTML = "<strong>Pressure - </strong>" + body["altitude"] + "m"
+  console.log(temp)
+  latestTemp.appendChild(temp)
+  latestTemp.appendChild(altitude)
+  latestTemp.appendChild(pressure)
+
+ }
+    async function logMovies() {
+  const response = await fetch("https://bmp-api-8jll.onrender.com/all");
+  const movies = await response.json();
+  t = movies["temp"]  
+  p = movies["pressure"]
+  a= movies["altitude"]
+  time = movies['time']
+
+
+console.log(t,p,a)
+  const xValues = time
+
+new Chart("myChart", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [{
+      label: "Temprature",
+      data: t,
+      borderColor: "#066067",
+      fill: false
+    },{
+      label: "Pressure",
+      data: p,
+      borderColor: "#4c776d",
+      fill: false
+    },{
+      label: "Altitude",
+      data:a,
+      borderColor: "#a45147",
+      fill: false
+    }]
+  },
+  options: {
+    legend: {display: true}
+  }
+});
+    }
+    
+    logLatestTemp()
+    logMovies()
+    </script>
+</body>
+</html>
