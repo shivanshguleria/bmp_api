@@ -8,8 +8,8 @@ class Temp(BaseModel):
     p: float
     a: float
 
-URI = "postgres://shivanshguleria:IBsZzCVWO12f@ep-little-glitter-39121056.ap-southeast-1.aws.neon.tech/neondb"
-
+# URI = "postgres://shivanshguleria:IBsZzCVWO12f@ep-little-glitter-39121056.ap-southeast-1.aws.neon.tech/neondb"
+URI = 'postgres://postgres:root@localhost/postgres'
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -17,18 +17,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
-while True:
 
-    try:
-        #database_url = 'postgres://my_postgres_k3r8_user:UVNqRtNaXWB8Zbaj2L6kxCPwSUniE5aA@dpg-ck8rumfq54js73ds19mg-a.oregon-postgres.render.com/posts'
-        #conn = psycopg2.connect(database_url, sslmode='require', cursor_factory = RealDictCursor)
-        conn = psycopg2.connect(URI)
-        cursor = conn.cursor()
-        print('[INFO]\tDatabase connection was successfull')
-        break
-    except Exception as error:
-        print(f'Connection failed \n Error was {error}')
-        time.sleep(2)
 
 @app.get("/")
 def root():
@@ -36,6 +25,18 @@ def root():
 
 @app.post("/post")
 def post(post: Temp):
+    while True:
+
+        try:
+            #database_url = 'postgres://my_postgres_k3r8_user:UVNqRtNaXWB8Zbaj2L6kxCPwSUniE5aA@dpg-ck8rumfq54js73ds19mg-a.oregon-postgres.render.com/posts'
+            #conn = psycopg2.connect(database_url, sslmode='require', cursor_factory = RealDictCursor)
+            conn = psycopg2.connect(URI)
+            cursor = conn.cursor()
+            print('[INFO]\tDatabase connection was successfull')
+            break
+        except Exception as error:
+            print(f'Connection failed \n Error was {error}')
+            time.sleep(2)
     cursor.execute("CREATE TABLE IF NOT EXISTS temp (id serial NOT NULL, temp REAL NOT NULL, pressure REAL NOT NULL, altitude REAL NOT NULL, created_at timestamp  NOT NULL DEFAULT now())")
     cursor.execute("""INSERT INTO temp (temp, pressure, altitude) VALUES (%s, %s, %s) RETURNING * """, (post.t, post.p, post.a))
     post = cursor.fetchone()
@@ -44,6 +45,17 @@ def post(post: Temp):
 
 @app.get("/one")
 def get_one():
+    while True:
+        try:
+            #database_url = 'postgres://my_postgres_k3r8_user:UVNqRtNaXWB8Zbaj2L6kxCPwSUniE5aA@dpg-ck8rumfq54js73ds19mg-a.oregon-postgres.render.com/posts'
+            #conn = psycopg2.connect(database_url, sslmode='require', cursor_factory = RealDictCursor)
+            conn = psycopg2.connect(URI)
+            cursor = conn.cursor()
+            print('[INFO]\tDatabase connection was successfull')
+            break
+        except Exception as error:
+            print(f'Connection failed \n Error was {error}')
+            time.sleep(2)
     cursor.execute("""SELECT temp, pressure, altitude FROM temp ORDER BY id DESC LIMIT 1""")
     post = cursor.fetchone()
     print(post)
@@ -54,6 +66,18 @@ def get_one():
 
 @app.get("/all")
 def get_all():
+    while True:
+
+        try:
+            #database_url = 'postgres://my_postgres_k3r8_user:UVNqRtNaXWB8Zbaj2L6kxCPwSUniE5aA@dpg-ck8rumfq54js73ds19mg-a.oregon-postgres.render.com/posts'
+            #conn = psycopg2.connect(database_url, sslmode='require', cursor_factory = RealDictCursor)
+            conn = psycopg2.connect(URI)
+            cursor = conn.cursor()
+            print('[INFO]\tDatabase connection was successfull')
+            break
+        except Exception as error:
+            print(f'Connection failed \n Error was {error}')
+            time.sleep(2)
     cursor.execute("""SELECT temp, pressure, altitude, created_at FROM temp""")
     post = cursor.fetchall()
     temp, pressure, altitude, time = [], [], [], []
@@ -73,4 +97,16 @@ def get_all():
 
 @app.get("/danger")
 def close():
+    while True:
+
+        try:
+            #database_url = 'postgres://my_postgres_k3r8_user:UVNqRtNaXWB8Zbaj2L6kxCPwSUniE5aA@dpg-ck8rumfq54js73ds19mg-a.oregon-postgres.render.com/posts'
+            #conn = psycopg2.connect(database_url, sslmode='require', cursor_factory = RealDictCursor)
+            conn = psycopg2.connect(URI)
+            cursor = conn.cursor()
+            print('[INFO]\tDatabase connection was successfull')
+            break
+        except Exception as error:
+            print(f'Connection failed \n Error was {error}')
+            time.sleep(2)
     cursor.execute("DROP TABLE temp")
