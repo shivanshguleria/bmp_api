@@ -8,8 +8,8 @@ class Temp(BaseModel):
     p: float
     a: float
 
-# URI = "postgres://shivanshguleria:IBsZzCVWO12f@ep-little-glitter-39121056.ap-southeast-1.aws.neon.tech/neondb"
-URI = 'postgres://postgres:root@localhost/postgres'
+URI = "postgres://shivanshguleria:IBsZzCVWO12f@ep-little-glitter-39121056.ap-southeast-1.aws.neon.tech/neondb"
+#URI = 'postgres://postgres:root@localhost/postgres'
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
