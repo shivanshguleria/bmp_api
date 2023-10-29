@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="5;https://shivanshguleria.github.io/bmp_api/" />
+    <!-- <meta http-equiv="refresh" content="5;https://shivanshguleria.github.io/bmp_api/" /> -->
     <title>Document</title>
     <script
 src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
@@ -12,10 +12,12 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h3 style="margin-bottom: 0px;">Latest Data</h3>
+  <h2 style="margin-bottom: 0px;">Latest Data</h2>
     <div id="latest-temp"></div>
-    <div id="graph">
-        <canvas id="myChart"></canvas>
+    <div id="graph" >
+        <canvas id="pressure"></canvas>
+        
+        <canvas id="temperature"></canvas>
     </div>
     <script>
       let uri = ""
@@ -29,11 +31,9 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
   const response = await fetch("https://young-paper-8770.fly.dev/one")
   const body = await response.json()
   temp.innerHTML = "<strong>Temprature - </strong>"+ body['temp'] + " C"
-  altitude.innerHTML = "<strong>Altitude - </strong>" + body["altitude"]*1000 + " Pa"
   pressure.innerHTML = "<strong>Pressure - </strong>" + body["pressure"]*1000 + " m"
   console.log(temp)
   latestTemp.appendChild(temp)
-  latestTemp.appendChild(altitude)
   latestTemp.appendChild(pressure)
 
  }
@@ -42,30 +42,36 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
   const movies = await response.json();
   t = movies["temp"]  
   p = movies["pressure"]
-  a= movies["altitude"]
   time = movies['time']
-
+  t = t.slice(1)
+  p = p.slice(1)
 
 console.log(t,p,a)
-  const xValues = time
+  const xValues = time.slice(1)
 
-new Chart("myChart", {
+new Chart("pressure", {
   type: "line",
   data: {
     labels: xValues,
     datasets: [{
-      label: "Temprature",
-      data: t,
+      label: "Pressure",
+      data: p,
       borderColor: "#066067",
       fill: false
-    },{
-      label: "Pressure[ x1000]",
-      data: p,
-      borderColor: "#4c776d",
-      fill: false
-    },{
-      label: "Altitude [ x1000]",
-      data:a,
+    }]
+  },
+  options: {
+    legend: {display: true}
+  }
+});
+
+new Chart("temperature", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [{
+      label: "Temperature",
+      data: t,
       borderColor: "#a45147",
       fill: false
     }]
