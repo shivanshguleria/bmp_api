@@ -24,7 +24,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
         <canvas id="temperature"></canvas>
     </div>
     <script>
-      let uri = ""
+      let uri = localStorage.getItem(1)
       const latestTemp = document.getElementById("latest-temp")
       const temp = document.createElement("p")
       const altitude = document.createElement("p")
@@ -32,7 +32,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
       console.log(temp)
  var t,p,a,time
  async function logLatestTemp() {
-  const response = await fetch("https://twilight-dawn-3725.fly.dev/one")
+  const response = await fetch(uri)
   const body = await response.json()
   temp.innerHTML = "<strong>Temprature - </strong>"+ body['temp'] + " C"
   pressure.innerHTML = "<strong>Pressure - </strong>" + body["pressure"]+ " hPa"
